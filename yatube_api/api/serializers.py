@@ -2,7 +2,6 @@ from rest_framework import serializers
 from rest_framework.relations import SlugRelatedField
 from django.contrib.auth import get_user_model
 
-
 from posts.models import Comment, Post, Group, Follow
 
 User = get_user_model()
@@ -48,14 +47,17 @@ class FollowSerializer(serializers.ModelSerializer):
         validators = [
             serializers.UniqueTogetherValidator(
                 queryset=Follow.objects.all(),
-                fields=('user', 'following')
+                fields=('user', 'following'),
+                message=('Вы уже подписаны на этого автора.')
             )
         ]
-        fields = ['following', 'user']
+        fields = '__all__'
 
-    def validate(self, data):
-        if self.context['request'].user == data.get('following'):
+    def validate_following(self, data):
+        # if self.context['request'].user == data.get('following'):
+        if self.context['request'].user == data:
+        # if data['user'] == data['following']:
             raise serializers.ValidationError(
-                'На себя подписка запещена'
+                'На себя подписка запрещена'
             )
         return data

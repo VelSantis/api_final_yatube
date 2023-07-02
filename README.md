@@ -53,3 +53,9 @@ API project
 Создать новый пост (POST):
 
     http://127.0.0.1:8000/api/v1/posts/
+
+Автор
+---
+Кирилюк Андрей
+
+    https://github.com/VelSantis
